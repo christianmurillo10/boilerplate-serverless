@@ -1,0 +1,27 @@
+{
+  "name": "boilerplate-serverless",
+  "version": "1.0.0",
+  "description": "Boilerplate serverless application using SAM CLI via cloudformation",
+  "main": "app.js",
+  "repository": "https://bitbucket.org/christianoroceomurillo/boilerplate-serverless",
+  "author": "Christian Murillo",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch --preserveWatchOutput",
+    "unit": "jest",
+    "test": "npm run build && npm run unit"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.92",
+    "@types/jest": "^29.2.0",
+    "@types/node": "^18.11.4",
+    "esbuild-jest": "^0.5.0",
+    "jest": "^29.2.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "esbuild": "^0.19.5"
+  }
+}
