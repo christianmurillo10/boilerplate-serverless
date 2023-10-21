@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: App template for boilerplate serverless
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    CodeUri: ../../../apps
+    Runtime: nodejs18.x
+    Architectures:
+      - x86_64
+    MemorySize: 128
+    Timeout: 60
+
+Resources:
+  AppFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: build/app.lambdaHandler
+      Events:
+        App:
+          Type: Api
+          Properties:
+            Path: /
+            Method: get
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/app/index.ts
+
+Outputs:
+  AppApi:
+    Description: "API Gateway endpoint URL for Prod stage for App function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+  AppFunction:
+    Description: "App Lambda Function ARN"
+    Value: !GetAtt AppFunction.Arn
+  AppFunctionIamRole:
+    Description: "Implicit IAM Role created for App function"
+    Value: !GetAtt AppFunctionRole.Arn
