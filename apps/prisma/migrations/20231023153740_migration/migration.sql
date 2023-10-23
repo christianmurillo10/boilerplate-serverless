@@ -1,20 +1,4 @@
 -- CreateTable
-CREATE TABLE `business_entities` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `created_at` DATETIME(0) NOT NULL,
-    `updated_at` DATETIME(0) NULL,
-    `deleted_at` DATETIME(0) NULL,
-    `name` VARCHAR(100) NOT NULL,
-    `api_key` VARCHAR(255) NOT NULL,
-    `domain` VARCHAR(255) NULL,
-    `logo_path` VARCHAR(255) NULL,
-    `preferred_timezone` VARCHAR(100) NULL,
-    `currency` VARCHAR(100) NULL,
-
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
 CREATE TABLE `customers` (
     `id` CHAR(36) NOT NULL,
     `created_at` DATETIME(0) NOT NULL,
@@ -34,11 +18,9 @@ CREATE TABLE `customers` (
     `image_path` VARCHAR(255) NULL,
     `gender_type` VARCHAR(100) NULL,
     `status` VARCHAR(100) NOT NULL DEFAULT 'PENDING',
-    `business_entity_id` INTEGER NOT NULL,
     `is_active` BOOLEAN NOT NULL DEFAULT true,
     `is_logged` BOOLEAN NOT NULL DEFAULT false,
 
-    INDEX `business_entity_id`(`business_entity_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -93,9 +75,7 @@ CREATE TABLE `roles` (
     `deleted_at` DATETIME(0) NULL,
     `name` VARCHAR(100) NOT NULL,
     `description` TEXT NULL,
-    `business_entity_id` INTEGER NULL,
 
-    INDEX `business_entity_id`(`business_entity_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -111,13 +91,11 @@ CREATE TABLE `users` (
     `email` VARCHAR(100) NOT NULL,
     `password` VARCHAR(100) NOT NULL,
     `image_path` VARCHAR(255) NULL,
-    `business_entity_id` INTEGER NULL,
     `role_id` INTEGER NOT NULL,
     `is_active` BOOLEAN NOT NULL DEFAULT true,
     `is_role_based_access` BOOLEAN NOT NULL DEFAULT true,
     `is_logged` BOOLEAN NOT NULL DEFAULT false,
 
-    INDEX `business_entity_id`(`business_entity_id`),
     INDEX `role_id`(`role_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -135,15 +113,10 @@ CREATE TABLE `audit_trails` (
     `host` VARCHAR(100) NULL,
     `ip_address` VARCHAR(100) NULL,
     `created_user_id` CHAR(36) NOT NULL,
-    `business_entity_id` INTEGER NULL,
 
     INDEX `created_user_id`(`created_user_id`),
-    INDEX `business_entity_id`(`business_entity_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- AddForeignKey
-ALTER TABLE `customers` ADD CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`business_entity_id`) REFERENCES `business_entities`(`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `rbac_modules` ADD CONSTRAINT `rbac_modules_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `rbac_modules`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
@@ -167,16 +140,7 @@ ALTER TABLE `rbac_role_based_access` ADD CONSTRAINT `rbac_role_based_access_ibfk
 ALTER TABLE `rbac_role_based_access` ADD CONSTRAINT `rbac_role_based_access_ibfk_6` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `roles` ADD CONSTRAINT `roles_ibfk_1` FOREIGN KEY (`business_entity_id`) REFERENCES `business_entities`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `users` ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`business_entity_id`) REFERENCES `business_entities`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE `users` ADD CONSTRAINT `users_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `audit_trails` ADD CONSTRAINT `audit_trails_ibfk_1` FOREIGN KEY (`created_user_id`) REFERENCES `users`(`id`) ON DELETE NO ACTION ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `audit_trails` ADD CONSTRAINT `audit_trails_ibfk_2` FOREIGN KEY (`business_entity_id`) REFERENCES `business_entities`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
