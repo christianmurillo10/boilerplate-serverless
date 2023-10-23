@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import config from "../../config/jwt";
+import config from "../config/jwt";
 import ErrorException from "./ErrorException";
 import { MESSAGE_DATA_TOKEN_EXPIRED } from "../helpers/constant";
 
@@ -10,7 +10,6 @@ type AuthData = {
   username: string,
   email: string,
   image_path: string,
-  business_entity_id: number | null,
   role_id: number,
   is_role_based_access: number
 };
