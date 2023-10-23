@@ -30,7 +30,7 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/app/index.ts
+          - src/handlers/app/index.ts
 
 Outputs:
   AppApi:
