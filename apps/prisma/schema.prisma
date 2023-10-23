@@ -8,48 +8,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model business_entities {
-  id                 Int            @id @default(autoincrement())
-  created_at         DateTime       @db.DateTime(0)
-  updated_at         DateTime?      @db.DateTime(0)
-  deleted_at         DateTime?      @db.DateTime(0)
-  name               String         @db.VarChar(100)
-  api_key            String         @db.VarChar(255)
-  domain             String?        @db.VarChar(255)
-  logo_path          String?        @db.VarChar(255)
-  preferred_timezone String?        @db.VarChar(100)
-  currency           String?        @db.VarChar(100)
-  customers          customers[]
-  roles              roles[]
-  users              users[]
-  audit_trails       audit_trails[]
-}
-
 model customers {
-  id                 String            @id @default(uuid()) @db.Char(36)
-  created_at         DateTime          @db.DateTime(0)
-  updated_at         DateTime?         @db.DateTime(0)
-  deleted_at         DateTime?         @db.DateTime(0)
-  verified_at        DateTime?         @db.DateTime(0)
-  last_login_at      DateTime?         @db.DateTime(0)
-  customer_no        String?           @db.VarChar(100)
-  firstname          String            @db.VarChar(100)
-  middlename         String?           @db.VarChar(100)
-  lastname           String            @db.VarChar(100)
-  email              String            @db.VarChar(100)
-  password           String            @db.VarChar(100)
-  contact_no         String            @db.VarChar(100)
-  primary_address    String            @db.VarChar(255)
-  secondary_address  String?           @db.VarChar(255)
-  image_path         String?           @db.VarChar(255)
-  gender_type        String?           @db.VarChar(100)
-  status             String            @default("PENDING") @db.VarChar(100)
-  business_entity_id Int
-  is_active          Boolean           @default(true)
-  is_logged          Boolean           @default(false)
-  business_entities  business_entities @relation(fields: [business_entity_id], references: [id], onDelete: NoAction, map: "customers_ibfk_1")
-
-  @@index([business_entity_id], map: "business_entity_id")
+  id                String    @id @default(uuid()) @db.Char(36)
+  created_at        DateTime  @db.DateTime(0)
+  updated_at        DateTime? @db.DateTime(0)
+  deleted_at        DateTime? @db.DateTime(0)
+  verified_at       DateTime? @db.DateTime(0)
+  last_login_at     DateTime? @db.DateTime(0)
+  customer_no       String?   @db.VarChar(100)
+  firstname         String    @db.VarChar(100)
+  middlename        String?   @db.VarChar(100)
+  lastname          String    @db.VarChar(100)
+  email             String    @db.VarChar(100)
+  password          String    @db.VarChar(100)
+  contact_no        String    @db.VarChar(100)
+  primary_address   String    @db.VarChar(255)
+  secondary_address String?   @db.VarChar(255)
+  image_path        String?   @db.VarChar(255)
+  gender_type       String?   @db.VarChar(100)
+  status            String    @default("PENDING") @db.VarChar(100)
+  is_active         Boolean   @default(true)
+  is_logged         Boolean   @default(false)
 }
 
 model rbac_modules {
@@ -107,12 +86,8 @@ model roles {
   deleted_at             DateTime?                @db.DateTime(0)
   name                   String                   @db.VarChar(100)
   description            String?                  @db.Text
-  business_entity_id     Int?
   rbac_role_based_access rbac_role_based_access[]
-  business_entities      business_entities?       @relation(fields: [business_entity_id], references: [id], map: "roles_ibfk_1")
   users                  users[]
-
-  @@index([business_entity_id], map: "business_entity_id")
 }
 
 model users {
@@ -126,7 +101,6 @@ model users {
   email                                String                   @db.VarChar(100)
   password                             String                   @db.VarChar(100)
   image_path                           String?                  @db.VarChar(255)
-  business_entity_id                   Int?
   role_id                              Int
   is_active                            Boolean                  @default(true)
   is_role_based_access                 Boolean                  @default(true)
@@ -136,29 +110,24 @@ model users {
   rbac_role_based_access_deleted_users rbac_role_based_access[] @relation("rbac_role_based_access_deleted_user_idTousers")
   rbac_role_based_access_users         rbac_role_based_access[] @relation("rbac_role_based_access_user_idTousers")
   audit_trails_created_users           audit_trails[]           @relation("audit_trails_created_user_idTousers")
-  business_entities                    business_entities?       @relation(fields: [business_entity_id], references: [id], map: "users_ibfk_1")
   roles                                roles                    @relation(fields: [role_id], references: [id], map: "users_ibfk_2")
 
-  @@index([business_entity_id], map: "business_entity_id")
   @@index([role_id], map: "role_id")
 }
 
 model audit_trails {
-  id                 String             @id @default(uuid()) @db.Char(36)
-  created_at         DateTime           @db.DateTime(0)
-  table_name         String             @db.VarChar(100)
-  action             String             @db.VarChar(100)
-  record_id          String             @db.VarChar(255)
-  old_values         Json               @default("{}") @db.Json
-  new_values         Json               @default("{}") @db.Json
-  user_agent         String?            @db.VarChar(255)
-  host               String?            @db.VarChar(100)
-  ip_address         String?            @db.VarChar(100)
-  created_user_id    String             @db.Char(36)
-  business_entity_id Int?
-  created_users      users              @relation("audit_trails_created_user_idTousers", fields: [created_user_id], references: [id], onDelete: NoAction, map: "audit_trails_ibfk_1")
-  business_entities  business_entities? @relation(fields: [business_entity_id], references: [id], map: "audit_trails_ibfk_2")
+  id              String   @id @default(uuid()) @db.Char(36)
+  created_at      DateTime @db.DateTime(0)
+  table_name      String   @db.VarChar(100)
+  action          String   @db.VarChar(100)
+  record_id       String   @db.VarChar(255)
+  old_values      Json     @default("{}") @db.Json
+  new_values      Json     @default("{}") @db.Json
+  user_agent      String?  @db.VarChar(255)
+  host            String?  @db.VarChar(100)
+  ip_address      String?  @db.VarChar(100)
+  created_user_id String   @db.Char(36)
+  created_users   users    @relation("audit_trails_created_user_idTousers", fields: [created_user_id], references: [id], onDelete: NoAction, map: "audit_trails_ibfk_1")
 
   @@index([created_user_id], map: "created_user_id")
-  @@index([business_entity_id], map: "business_entity_id")
 }
