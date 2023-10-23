@@ -35,6 +35,9 @@ exec-app:
 db-migrate-local:
 	docker run --rm -v "${PWD}/apps":/var/app/current --network $(docker_network) -w /var/app/current node:$(node_image_version) npm run db-migrate
 
+db-seed-local:
+	docker run --rm -v "${PWD}/apps":/var/app/current --network $(docker_network) -w /var/app/current node:$(node_image_version) npm run db-seed
+
 db-create-client:
 	docker run --rm -v "${PWD}/apps":/var/app/current -w /var/app/current node:$(node_image_version) npx prisma generate
 
@@ -73,6 +76,8 @@ define HELP_MESSAGE
 	make validate # Validates the sam template for Errors
 
 	make db-migrate-local # Command to run DB migration on your local machine
+
+	make db-seed-local # Command to run DB seed on your local machine
 
 	make db-create-client # Creates Prisma client for the local instance(Must run first before db-migrate-local)
 
