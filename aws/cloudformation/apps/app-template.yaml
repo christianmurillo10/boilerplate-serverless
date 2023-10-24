@@ -16,7 +16,7 @@ Resources:
   AppFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: build/app.lambdaHandler
+      Handler: build/handlers/app.handler
       Events:
         App:
           Type: Api

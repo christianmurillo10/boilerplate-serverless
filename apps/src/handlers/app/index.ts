@@ -1,22 +1,17 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
+import ApiResponse from "../../shared/utils/ApiResponse";
+import config from "../../shared/config/server";
 
-/**
- *
- * Event doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html#api-gateway-simple-proxy-for-lambda-input-format
- * @param {Object} event - API Gateway Lambda Proxy Input Format
- *
- * Return doc: https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-lambda-proxy-integrations.html
- * @returns {Object} object - API Gateway Lambda Proxy Output Format
- *
- */
-
-export const lambdaHandler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+export const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   try {
     return {
       statusCode: 200,
-      body: JSON.stringify({
-        message: "Welcome to boilerplate serverless application",
-      }),
+      body: JSON.stringify(
+        new ApiResponse({
+          status_code: 200,
+          message: `Welcome to ${config.app_name}`
+        })
+      ),
     };
   } catch (err) {
     console.log(err);
