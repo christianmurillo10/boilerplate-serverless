@@ -1,0 +1,65 @@
+export const ROLES_SUPERADMIN = 1;
+export const ROLES_ADMIN = 2;
+
+export const RBAC_PERMISSION_CREATE = "CREATE";
+export const RBAC_PERMISSION_UPDATE = "UPDATE";
+export const RBAC_PERMISSION_DELETE = "DELETE";
+export const RBAC_PERMISSION_READ = "READ";
+export const RBAC_PERMISSION_CHANGE_PASSWORD = "CHANGE_PASSWORD";
+
+export const GENDER_MALE = "MALE";
+export const GENDER_FEMALE = "FEMALE";
+export const GENDER_OTHER = "OTHER";
+
+export const CUSTOMER_STATUS_APPROVED = "APPROVED";
+export const CUSTOMER_STATUS_PENDING = "PENDING";
+export const CUSTOMER_STATUS_DECLINED = "DECLINED";
+
+export const MESSAGE_INVALID_PARAMETER = "Invalid Parameter.";
+export const MESSAGE_INVALID_BODY = "Invalid Body.";
+export const MESSAGE_INVALID_QUERY = "Invalid Query.";
+export const MESSAGE_INVALID_API_KEY = "Invalid API Key.";
+export const MESSAGE_REQUIRED_API_KEY = "API Key is required.";
+export const MESSAGE_DATA_CREATED = "Successfully created data.";
+export const MESSAGE_DATA_INGESTED = "Successfully ingest data.";
+export const MESSAGE_DATA_UPDATED = "Successfully updated data.";
+export const MESSAGE_DATA_DELETED = "Successfully deleted data.";
+export const MESSAGE_DATA_CRUD = "Successfully crud data.";
+export const MESSAGE_DATA_SIGNED_IN = "Successfully signed in.";
+export const MESSAGE_DATA_SIGNED_OUT = "Successfully signed out.";
+export const MESSAGE_DATA_VERIFIED_TOKEN = "Successfully verify token.";
+export const MESSAGE_DATA_PASSWORD_CHANGED = "Successfully changed password.";
+export const MESSAGE_DATA_INCORRECT_OLD_PASSWORD = "Old password is incorrect.";
+export const MESSAGE_DATA_SAME_NEW_PASSWORD_TO_OLD_PASSWORD = "New password cannot be the same as your old password.";
+export const MESSAGE_DATA_INVALID_PASSWORD = "Invalid Password.";
+export const MESSAGE_DATA_INVALID_TOKEN = "Invalid Token, Please login to continue.";
+export const MESSAGE_DATA_FIND_ALL = "Successfully find all data.";
+export const MESSAGE_DATA_FIND = "Successfully find data.";
+export const MESSAGE_DATA_GENERATE_REPORT = "Successfully generate report.";
+export const MESSAGE_DATA_EXIST = "Data already exist.";
+export const MESSAGE_DATA_NOT_EXIST = "Data doesn't exist.";
+export const MESSAGE_DATA_NOT_FOUND = "No data found.";
+export const MESSAGE_DATA_NOT_LOGGED = "Please login to continue.";
+export const MESSAGE_DATA_TOKEN_EXPIRED = "Token expired, Please login to continue.";
+export const MESSAGE_ERROR_SERVER = "Server error.";
+export const MESSAGE_ERROR_BAD_REQUEST = "Bad Request.";
+export const MESSAGE_ERROR_UNAUTHORIZED = "Unauthorized";
+export const MESSAGE_ERROR_FORBIDDEN = "Forbidden";
+export const MESSAGE_ERROR_NOT_FOUND = "Not Found";
+export const MESSAGE_ERROR_CONFLICT = "Conflict";
+
+export const ERROR_ON_CREATE = "Error on create";
+export const ERROR_ON_BULK_CREATE = "Error on bulk create";
+export const ERROR_ON_UPDATE = "Error on update";
+export const ERROR_ON_DELETE = "Error on delete";
+export const ERROR_ON_UPDATE_AND_DELETE = "Error on update and delete";
+export const ERROR_ON_LIST = "Error on list";
+export const ERROR_ON_READ = "Error on read";
+export const ERROR_ON_REGISTER = "Error on register";
+export const ERROR_ON_CHANGE_PASSWORD = "Error on change password";
+export const ERROR_ON_INGESTION = "Error on ingestion";
+export const ERROR_ON_LOGIN = "Error on login";
+export const ERROR_ON_LOGOUT = "Error on logout";
+export const ERROR_ON_VERIFY = "Error on verify";
+export const ERROR_ON_REPORT = "Error on report";
+export const ERROR_ON_SERVER = "Something went wrong, please contact administrator.";
