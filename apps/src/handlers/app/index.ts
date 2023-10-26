@@ -1,25 +1,16 @@
-import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-import ApiResponse from "../../shared/utils/ApiResponse";
+import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
+import { apiResponse, apiErorrResponse } from "../../shared/utils/ApiResponse";
 import config from "../../shared/config/server";
 
-export const handler = async (_event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+export const handler = async (
+  _event: APIGatewayProxyEventV2
+): Promise<APIGatewayProxyResultV2> => {
   try {
-    return {
-      statusCode: 200,
-      body: JSON.stringify(
-        new ApiResponse({
-          status_code: 200,
-          message: `Welcome to ${config.app_name}`
-        })
-      ),
-    };
+    return apiResponse({
+      status_code: 200,
+      message: `Welcome to ${config.app_name}`
+    });
   } catch (err) {
-    console.log(err);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        message: "Server error, please contact administrator",
-      }),
-    };
-  }
+    return apiErorrResponse(err as Error);
+  };
 };

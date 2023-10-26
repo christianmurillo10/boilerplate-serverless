@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import _ from "lodash";
-import ErrorException from "../utils/ErrorException";
+import ErrorException from "../exceptions/ErrorException";
 
 export const setUploadPath = (file: any, filePath: string): string => {
   let value: string = "";
@@ -23,6 +23,6 @@ export const uploadFile = (path: string | null, file: any): void => {
     }
   } catch (error) {
     console.error(error);
-    throw new ErrorException();
+    throw new ErrorException([]);
   };
 };
