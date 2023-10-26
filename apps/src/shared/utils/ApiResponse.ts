@@ -2,6 +2,7 @@ import { APIGatewayProxyResultV2 } from "aws-lambda";
 import { ValidationError } from "joi";
 import config from "../config/server";
 import BadRequestException from "../exceptions/BadRequestException";
+import ErrorException from "../exceptions/ErrorException";
 
 type ApiResponseInput = {
   service?: string,
@@ -35,14 +36,26 @@ export const apiResponse = (input: ApiResponseInput): APIGatewayProxyResultV2 =>
 });
 
 export const apiErorrResponse = (e: Error): APIGatewayProxyResultV2 => {
+  let statusCode = 500;
+  let message = "Internal server error! Please contact system administrator.";
+  let errors = [e.message];
+  let result = e.stack;
+
   if (e instanceof ValidationError) {
     e = new BadRequestException(e.details.map((_) => _.message));
   };
 
+  if (e instanceof ErrorException) {
+    statusCode = e.statusCode;
+    message = e.message;
+    errors = e.errors;
+  };
+
   return apiResponse({
-    status_code: 500,
-    message: "Internal server error! Please contact system administrator.",
-    errors: [e.message],
-    result: e.stack,
+    status_code: statusCode,
+    status: "error",
+    message: message,
+    errors: errors,
+    result: result,
   });
 };
