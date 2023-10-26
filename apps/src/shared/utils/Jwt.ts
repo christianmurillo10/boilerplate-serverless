@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import config from "../config/jwt";
-import ErrorException from "./ErrorException";
+import UnauthenticatedException from "../exceptions/UnauthenticatedException";
 import { MESSAGE_DATA_TOKEN_EXPIRED } from "../helpers/constant";
 
 type AuthData = {
@@ -41,6 +41,6 @@ export const verifyToken = (token: string): JWT => {
   try {
     return <JWT>jwt.verify(token, config.secret);
   } catch (error) {
-    throw new ErrorException(401, [MESSAGE_DATA_TOKEN_EXPIRED]);
+    throw new UnauthenticatedException([MESSAGE_DATA_TOKEN_EXPIRED]);
   };
 };

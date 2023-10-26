@@ -1,4 +1,4 @@
-import ErrorException from "../utils/ErrorException";
+import BadRequestException from "../exceptions/BadRequestException";
 import { GenericObject } from "../utils/Types";
 
 export const validateRequest = (data: object, schema: any): GenericObject => {
@@ -19,7 +19,7 @@ export const validateRequest = (data: object, schema: any): GenericObject => {
   if (error) {
     let errors: string[] = [];
     error.details.map((x: Error) => errors.push(x.message));
-    throw new ErrorException(400, errors);
+    throw new BadRequestException(errors);
   };
 
   return value;
