@@ -3,6 +3,7 @@ import { ValidationError } from "joi";
 import config from "../config/server";
 import BadRequestException from "../exceptions/BadRequestException";
 import ErrorException from "../exceptions/ErrorException";
+import { MESSAGE_ERROR_SERVER } from "../helpers/constant";
 
 type ApiResponseInput = {
   service?: string,
@@ -35,9 +36,9 @@ export const apiResponse = (input: ApiResponseInput): APIGatewayProxyResultV2 =>
   isBase64Encoded: false
 });
 
-export const apiErorrResponse = (e: Error): APIGatewayProxyResultV2 => {
+export const apiErrorResponse = (e: Error): APIGatewayProxyResultV2 => {
   let statusCode = 500;
-  let message = "Internal server error! Please contact system administrator.";
+  let message = MESSAGE_ERROR_SERVER;
   let errors = [e.message];
   let result = e.stack;
 

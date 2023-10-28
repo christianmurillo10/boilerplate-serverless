@@ -7,3 +7,8 @@ Resources:
     Type: AWS::Serverless::Application
     Properties:
       Location: ./apps/app-template.yaml
+
+  RolesApplication:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: ./apps/roles-template.yaml

@@ -1,5 +1,5 @@
 import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
-import { apiResponse, apiErorrResponse } from "../../shared/utils/ApiResponse";
+import { apiResponse, apiErrorResponse } from "../../shared/utils/ApiResponse";
 import config from "../../shared/config/server";
 
 export const handler = async (
@@ -11,6 +11,6 @@ export const handler = async (
       message: `Welcome to ${config.app_name}`
     });
   } catch (err) {
-    return apiErorrResponse(err as Error);
+    return apiErrorResponse(err as Error);
   };
 };

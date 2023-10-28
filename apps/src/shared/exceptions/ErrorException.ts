@@ -1,7 +1,9 @@
+import { MESSAGE_ERROR_SERVER } from "../helpers/constant";
+
 class ErrorException extends Error {
   statusCode = 500;
   errors: string[] = [];
-  message = "Application Error! Please contact the administrator.";
+  message = MESSAGE_ERROR_SERVER;
 
   constructor(errors: string[], message?: string, statusCode?: number) {
     super();

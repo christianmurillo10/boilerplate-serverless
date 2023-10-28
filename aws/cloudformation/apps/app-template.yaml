@@ -16,6 +16,8 @@ Resources:
   AppFunction:
     Type: AWS::Serverless::Function
     Properties:
+      FunctionName: App
+      Description: Function to access main endpoint
       Handler: build/handlers/app.handler
       Events:
         App:
