@@ -19,7 +19,6 @@ export const handler = async (
 
     const record = await repository.findById({
       id: Number(id),
-      include: ["business_entities"],
       exclude: ["deleted_at"]
     });
 

@@ -45,7 +45,6 @@ export const handler = async (
         ...oldData,
         ...body,
       },
-      include: ["business_entities"],
       exclude: ["deleted_at"]
     });
 

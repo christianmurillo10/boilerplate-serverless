@@ -34,7 +34,6 @@ export const handler = async (
     const data = new Roles(body);
     const result = await repository.create({
       params: data,
-      include: ["business_entities"],
       exclude: ["deleted_at"]
     });
 
