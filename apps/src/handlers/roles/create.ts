@@ -1,4 +1,4 @@
-import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import Joi from "joi";
 import { apiResponse, apiErrorResponse } from "../../shared/utils/ApiResponse";
 import { MESSAGE_DATA_CREATED, MESSAGE_DATA_EXIST } from "../../shared/helpers/constant";
@@ -19,10 +19,10 @@ const validator = async <I>(input: I): Promise<I> => {
 };
 
 export const handler = async (
-  event: APIGatewayProxyEventV2
-): Promise<APIGatewayProxyResultV2> => {
+  event: APIGatewayProxyEvent
+): Promise<APIGatewayProxyResult> => {
   try {
-    const body = await validator(JSON.parse(event.body!));
+    const body = await validator(JSON.parse(event.body as string));
     const record = await repository.findByName({
       name: body.name,
     });

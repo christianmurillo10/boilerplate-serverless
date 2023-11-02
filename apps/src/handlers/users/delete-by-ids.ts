@@ -2,15 +2,15 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import Joi from "joi";
 import { apiResponse, apiErrorResponse } from "../../shared/utils/ApiResponse";
 import { MESSAGE_DATA_DELETED } from "../../shared/helpers/constant";
-import RolesRepository from "../../shared/repositories/mysql/RolesRepository";
+import UsersRepository from "../../shared/repositories/mysql/UsersRepository";
 import { validateInput } from "../../shared/helpers";
 
-const repository = new RolesRepository;
+const repository = new UsersRepository;
 
 const validator = async <I>(input: I): Promise<I> => {
   const schema = Joi.object({
     ids: Joi.array()
-      .items(Joi.number())
+      .items(Joi.string())
       .min(1)
       .label("Ids")
       .required(),

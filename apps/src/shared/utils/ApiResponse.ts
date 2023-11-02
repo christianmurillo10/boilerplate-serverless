@@ -1,4 +1,4 @@
-import { APIGatewayProxyResultV2 } from "aws-lambda";
+import { APIGatewayProxyResult } from "aws-lambda";
 import { ValidationError } from "joi";
 import config from "../config/server";
 import BadRequestException from "../exceptions/BadRequestException";
@@ -15,7 +15,7 @@ type ApiResponseInput = {
   result?: unknown,
 };
 
-export const apiResponse = (input: ApiResponseInput): APIGatewayProxyResultV2 => ({
+export const apiResponse = (input: ApiResponseInput): APIGatewayProxyResult => ({
   statusCode: input.status_code,
   headers: {
     "Access-Control-Allow-Methods": "GET, OPTIONS, POST, PUT, PATCH, DELETE",
@@ -36,7 +36,7 @@ export const apiResponse = (input: ApiResponseInput): APIGatewayProxyResultV2 =>
   isBase64Encoded: false
 });
 
-export const apiErrorResponse = (e: Error): APIGatewayProxyResultV2 => {
+export const apiErrorResponse = (e: Error): APIGatewayProxyResult => {
   let statusCode = 500;
   let message = MESSAGE_ERROR_SERVER;
   let errors = [e.message];

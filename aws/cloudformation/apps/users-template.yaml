@@ -1,0 +1,186 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: App template for boilerplate serverless
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    CodeUri: ../../../apps
+    Runtime: nodejs18.x
+    Architectures:
+      - x86_64
+    MemorySize: 128
+    Timeout: 60
+  # Api:
+  #   BinaryMediaTypes:
+  #     - "multipart/form-data"
+  #     - "application/json"
+
+Resources:
+  ListUsersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ListUsers
+      Description: Function to list users
+      Handler: build/handlers/users/list.handler
+      Events:
+        App:
+          Type: Api
+          Properties:
+            Path: /users
+            Method: get
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/users/list.ts
+
+  ReadUsersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ReadUsers
+      Description: Function to read users
+      Handler: build/handlers/users/read.handler
+      Events:
+        App:
+          Type: Api
+          Properties:
+            Path: /users/{id}
+            Method: get
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/users/read.ts
+
+  CreateUsersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: CreateUsers
+      Description: Function to create users
+      Handler: build/handlers/users/create.handler
+      Events:
+        App:
+          Type: Api
+          Properties:
+            Path: /users
+            Method: post
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/users/create.ts
+
+  UpdateUsersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: UpdateUsers
+      Description: Function to update users
+      Handler: build/handlers/users/update.handler
+      Events:
+        App:
+          Type: Api
+          Properties:
+            Path: /users/{id}
+            Method: put
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/users/update.ts
+
+  DeleteUsersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: DeleteUsers
+      Description: Function to delete users
+      Handler: build/handlers/users/delete.handler
+      Events:
+        App:
+          Type: Api
+          Properties:
+            Path: /users/{id}
+            Method: delete
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/users/delete.ts
+
+  DeleteByIdsUsersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: DeleteByIdsUsers
+      Description: Function to delete users by ids
+      Handler: build/handlers/users/delete-by-ids.handler
+      Events:
+        App:
+          Type: Api
+          Properties:
+            Path: /users/delete-by-ids
+            Method: post
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/users/delete-by-ids.ts
+
+  ChangePasswordUsersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ChangePasswordUsers
+      Description: Function to change password users
+      Handler: build/handlers/users/change-password.handler
+      Events:
+        App:
+          Type: Api
+          Properties:
+            Path: /users/change-password/{id}
+            Method: put
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/users/change-password.ts
+          
+  GenerateReportUsersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GenerateReportUsers
+      Description: Function to generate report users
+      Handler: build/handlers/users/generate/report.handler
+      Events:
+        App:
+          Type: Api
+          Properties:
+            Path: /users/generate/report
+            Method: get
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/users/generate/report.ts

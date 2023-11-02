@@ -7,7 +7,7 @@ export const setUploadPath = (file: any, filePath: string): string => {
   let value: string = "";
 
   if (!_.isUndefined(file)) {
-    const extension = path.extname(file.originalname);
+    const extension = path.extname(file.filename);
     value = `${filePath}image-${Date.now()}${extension}`;
   }
 
@@ -17,7 +17,7 @@ export const setUploadPath = (file: any, filePath: string): string => {
 export const uploadFile = (path: string | null, file: any): void => {
   try {
     if (path) {
-      fs.writeFile(path, file.buffer, (err) => {
+      fs.writeFile(path, file.content, (err) => {
         if (err) throw err;
       });
     }
