@@ -1,10 +1,10 @@
-import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { apiResponse, apiErrorResponse } from "../../shared/utils/ApiResponse";
 import config from "../../shared/config/server";
 
 export const handler = async (
-  _event: APIGatewayProxyEventV2
-): Promise<APIGatewayProxyResultV2> => {
+  _event: APIGatewayProxyEvent
+): Promise<APIGatewayProxyResult> => {
   try {
     return apiResponse({
       status_code: 200,

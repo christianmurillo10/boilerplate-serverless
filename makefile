@@ -75,6 +75,8 @@ define HELP_MESSAGE
 
 	make validate # Validates the sam template for Errors
 
+	make exec-app # Execute bash to docker container
+
 	make db-migrate-local # Command to run DB migration on your local machine
 
 	make db-seed-local # Command to run DB seed on your local machine

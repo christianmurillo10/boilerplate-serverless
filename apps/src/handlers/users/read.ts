@@ -1,11 +1,11 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { apiResponse, apiErrorResponse } from "../../shared/utils/ApiResponse";
 import { MESSAGE_DATA_FIND, MESSAGE_DATA_NOT_EXIST, MESSAGE_INVALID_PARAMETER } from "../../shared/helpers/constant";
-import RolesRepository from "../../shared/repositories/mysql/RolesRepository";
+import UsersRepository from "../../shared/repositories/mysql/UsersRepository";
 import NotFoundException from "../../shared/exceptions/NotFoundException";
 import BadRequestException from "../../shared/exceptions/BadRequestException";
 
-const repository = new RolesRepository;
+const repository = new UsersRepository;
 
 export const handler = async (
   event: APIGatewayProxyEvent
@@ -18,8 +18,9 @@ export const handler = async (
     };
 
     const record = await repository.findById({
-      id: Number(id),
-      exclude: ["deleted_at"]
+      id: id as string,
+      include: ["roles"],
+      exclude: ["deleted_at", "password"]
     });
 
     if (!record) {

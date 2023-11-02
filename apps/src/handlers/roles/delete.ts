@@ -1,4 +1,4 @@
-import { APIGatewayProxyEventV2, APIGatewayProxyResultV2 } from "aws-lambda";
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { apiResponse, apiErrorResponse } from "../../shared/utils/ApiResponse";
 import { MESSAGE_DATA_DELETED, MESSAGE_DATA_NOT_EXIST, MESSAGE_INVALID_PARAMETER } from "../../shared/helpers/constant";
 import RolesRepository from "../../shared/repositories/mysql/RolesRepository";
@@ -8,8 +8,8 @@ import NotFoundException from "../../shared/exceptions/NotFoundException";
 const repository = new RolesRepository;
 
 export const handler = async (
-  event: APIGatewayProxyEventV2
-): Promise<APIGatewayProxyResultV2> => {
+  event: APIGatewayProxyEvent
+): Promise<APIGatewayProxyResult> => {
   try {
     const id = event.pathParameters?.id;
 
