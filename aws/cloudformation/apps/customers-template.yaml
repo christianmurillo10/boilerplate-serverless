@@ -1,0 +1,203 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: App template for boilerplate serverless
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    CodeUri: ../../../apps
+    Runtime: nodejs18.x
+    Architectures:
+      - x86_64
+    MemorySize: 128
+    Timeout: 60
+
+Resources:
+  ListCustomersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ListCustomers
+      Description: Function to list customers
+      Handler: build/handlers/customers/list.handler
+      Events:
+        App:
+          Type: Api
+          Properties:
+            Path: /customers
+            Method: get
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/customers/list.ts
+
+  ReadCustomersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ReadCustomers
+      Description: Function to read customers
+      Handler: build/handlers/customers/read.handler
+      Events:
+        App:
+          Type: Api
+          Properties:
+            Path: /customers/{id}
+            Method: get
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/customers/read.ts
+
+  CreateCustomersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: CreateCustomers
+      Description: Function to create customers
+      Handler: build/handlers/customers/create.handler
+      Events:
+        App:
+          Type: Api
+          Properties:
+            Path: /customers
+            Method: post
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/customers/create.ts
+
+  UpdateCustomersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: UpdateCustomers
+      Description: Function to update customers
+      Handler: build/handlers/customers/update.handler
+      Events:
+        App:
+          Type: Api
+          Properties:
+            Path: /customers/{id}
+            Method: put
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/customers/update.ts
+
+  DeleteCustomersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: DeleteCustomers
+      Description: Function to delete customers
+      Handler: build/handlers/customers/delete.handler
+      Events:
+        App:
+          Type: Api
+          Properties:
+            Path: /customers/{id}
+            Method: delete
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/customers/delete.ts
+
+  DeleteByIdsCustomersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: DeleteByIdsCustomers
+      Description: Function to delete customers by ids
+      Handler: build/handlers/customers/delete-by-ids.handler
+      Events:
+        App:
+          Type: Api
+          Properties:
+            Path: /customers/delete-by-ids
+            Method: post
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/customers/delete-by-ids.ts
+
+  ChangePasswordCustomersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ChangePasswordCustomers
+      Description: Function to change password customers
+      Handler: build/handlers/customers/change-password.handler
+      Events:
+        App:
+          Type: Api
+          Properties:
+            Path: /customers/change-password/{id}
+            Method: put
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/customers/change-password.ts
+          
+  GenerateReportCustomersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: GenerateReportCustomers
+      Description: Function to generate report customers
+      Handler: build/handlers/customers/generate/report.handler
+      Events:
+        App:
+          Type: Api
+          Properties:
+            Path: /customers/generate/report
+            Method: get
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/customers/generate/report.ts
+
+  RegisterCustomersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: RegisterCustomers
+      Description: Function to register customers
+      Handler: build/handlers/customers/register.handler
+      Events:
+        App:
+          Type: Api
+          Properties:
+            Path: /customers/register
+            Method: post
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/customers/register.ts
