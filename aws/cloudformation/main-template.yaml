@@ -17,3 +17,8 @@ Resources:
     Type: AWS::Serverless::Application
     Properties:
       Location: ./apps/users-template.yaml
+
+  CustomersApplication:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: ./apps/customers-template.yaml
