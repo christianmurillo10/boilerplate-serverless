@@ -11,12 +11,16 @@ Globals:
       - x86_64
     MemorySize: 128
     Timeout: 60
-  # Api:
-  #   BinaryMediaTypes:
-  #     - "multipart/form-data"
-  #     - "application/json"
 
 Resources:
+  BinaryResponseApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      BinaryMediaTypes:
+        - "multipart/form-data"
+        - "application/json"
+
   ListUsersFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -71,6 +75,7 @@ Resources:
           Properties:
             Path: /users
             Method: post
+            RestApiId: !Ref BinaryResponseApi
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -92,6 +97,7 @@ Resources:
           Properties:
             Path: /users/{id}
             Method: put
+            RestApiId: !Ref BinaryResponseApi
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -184,3 +190,8 @@ Resources:
         Sourcemap: true
         EntryPoints:
           - src/handlers/users/generate/report.ts
+
+Output:
+  BinaryResponseApi:
+    Description: "Binary Response Api ARN"
+    value: !Ref BinaryResponseApi
