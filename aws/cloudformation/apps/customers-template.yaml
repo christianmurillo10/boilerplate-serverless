@@ -13,13 +13,13 @@ Globals:
     Timeout: 60
 
 Resources:
-  BinaryResponseApi:
-    Type: AWS::Serverless::Api
-    Properties:
-      StageName: prod
-      BinaryMediaTypes:
-        - "multipart/form-data"
-        - "application/json"
+  # BinaryResponseApi:
+  #   Type: AWS::Serverless::Api
+  #   Properties:
+  #     StageName: prod
+  #     BinaryMediaTypes:
+  #       - "multipart/form-data"
+  #       - "application/json"
 
   ListCustomersFunction:
     Type: AWS::Serverless::Function
@@ -75,7 +75,7 @@ Resources:
           Properties:
             Path: /customers
             Method: post
-            RestApiId: !Ref BinaryResponseApi
+            # RestApiId: !Ref BinaryResponseApi
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -97,7 +97,7 @@ Resources:
           Properties:
             Path: /customers/{id}
             Method: put
-            RestApiId: !Ref BinaryResponseApi
+            # RestApiId: !Ref BinaryResponseApi
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -212,7 +212,7 @@ Resources:
         EntryPoints:
           - src/handlers/customers/register.ts
 
-Output:
-  BinaryResponseApi:
-    Description: "Binary Response Api ARN"
-    value: !Ref BinaryResponseApi
+# Output:
+#   BinaryResponseApi:
+#     Description: "Binary Response Api ARN"
+#     value: !Ref BinaryResponseApi
