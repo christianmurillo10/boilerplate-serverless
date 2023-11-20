@@ -1,28 +1,21 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-import Joi from "joi";
 import { apiResponse, apiErrorResponse } from "../../shared/utils/ApiResponse";
 import { MESSAGE_DATA_NOT_EXIST, MESSAGE_DATA_UPDATED, MESSAGE_INVALID_PARAMETER } from "../../shared/helpers/constant";
 import RolesRepository from "../../shared/repositories/mysql/RolesRepository";
 import BadRequestException from "../../shared/exceptions/BadRequestException";
 import NotFoundException from "../../shared/exceptions/NotFoundException";
 import Roles from "../../shared/entities/Roles";
-import { validateInput } from "../../shared/helpers";
+import authenticate from "../../shared/middlewares/authenticate";
+import { update as validator } from "../../shared/middlewares/validators/roles";
 
 const repository = new RolesRepository;
-
-const validator = async <I>(input: I): Promise<I> => {
-  const schema = Joi.object({
-    name: Joi.string().label("Name").max(100).empty(),
-    description: Joi.string().label("Description").max(255).optional().empty().allow("").allow(null),
-  });
-
-  return await validateInput(input, schema);
-};
 
 export const handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   try {
+    await authenticate(event);
+
     const id = event.pathParameters?.id;
     const body = await validator(JSON.parse(event.body as string));
 

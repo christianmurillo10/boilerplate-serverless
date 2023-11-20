@@ -8,10 +8,10 @@ Resources:
     Properties:
       Location: ./apps/app-template.yaml
 
-  AuthenticationsApplication:
+  AuthApplication:
     Type: AWS::Serverless::Application
     Properties:
-      Location: ./apps/authentications-template.yaml
+      Location: ./apps/auth-template.yaml
 
   RolesApplication:
     Type: AWS::Serverless::Application

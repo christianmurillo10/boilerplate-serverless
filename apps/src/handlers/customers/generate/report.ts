@@ -1,25 +1,18 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
-import Joi from "joi";
 import { apiResponse, apiErrorResponse } from "../../../shared/utils/ApiResponse";
 import { MESSAGE_DATA_FIND_ALL, MESSAGE_DATA_NOT_FOUND } from "../../../shared/helpers/constant";
 import CustomersRepository from "../../../shared/repositories/mysql/CustomersRepository";
-import { validateInput } from "../../../shared/helpers";
+import authenticate from "../../../shared/middlewares/authenticate";
+import { report as validator } from "../../../shared/middlewares/validators/customers";
 
 const repository = new CustomersRepository;
-
-const validator = async <I>(input: I): Promise<I> => {
-  const schema = Joi.object({
-    date_from: Joi.date().label("Date From"),
-    date_to: Joi.date().label("Date To"),
-  }).and("date_from", "date_to").required();
-
-  return await validateInput(input, schema);
-};
 
 export const handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   try {
+    await authenticate(event);
+
     let message = MESSAGE_DATA_FIND_ALL;
     const query = await validator(event.queryStringParameters!);
     const record = await repository.findAllBetweenCreatedAt({

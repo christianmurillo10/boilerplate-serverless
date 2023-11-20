@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: App template for boilerplate serverless
+Description: Roles template for boilerplate serverless
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -13,6 +13,40 @@ Globals:
     Timeout: 60
 
 Resources:
+  RolesApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      EndpointConfiguration:
+        Type: EDGE
+      Cors:
+        AllowMethods: "'GET, POST, PUT, DELETE, OPTIONS, PATCH'"
+        AllowOrigin: "'*'"
+        AllowHeaders: "'*'"
+      Auth:
+        DefaultAuthorizer: LambdaTokenAuthorizer
+        Authorizers:
+          LambdaTokenAuthorizer:
+            FunctionPayloadType: TOKEN
+            FunctionArn: !GetAtt Authorizer.Arn
+            Identity:
+              ReauthorizeEvery: 0
+
+  Authorizer:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../../../apps
+      Handler: build/handlers/auth/authorizer.handler
+      Description: App HTTP authorizer
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/auth/authorizer.ts
+
   ListRolesFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -25,6 +59,7 @@ Resources:
           Properties:
             Path: /roles
             Method: get
+            RestApiId: !Ref RolesApiGateway
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -46,6 +81,7 @@ Resources:
           Properties:
             Path: /roles/{id}
             Method: get
+            RestApiId: !Ref RolesApiGateway
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -67,6 +103,7 @@ Resources:
           Properties:
             Path: /roles
             Method: post
+            RestApiId: !Ref RolesApiGateway
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -88,6 +125,7 @@ Resources:
           Properties:
             Path: /roles/{id}
             Method: put
+            RestApiId: !Ref RolesApiGateway
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -109,6 +147,7 @@ Resources:
           Properties:
             Path: /roles/{id}
             Method: delete
+            RestApiId: !Ref RolesApiGateway
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -130,6 +169,7 @@ Resources:
           Properties:
             Path: /roles/delete-by-ids
             Method: post
+            RestApiId: !Ref RolesApiGateway
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -138,3 +178,8 @@ Resources:
         Sourcemap: true
         EntryPoints:
           - src/handlers/roles/delete-by-ids.ts
+
+Outputs:
+  RolesApiGateway:
+    Description: "App Server Role Api ARN"
+    Value: !Ref RolesApiGateway
