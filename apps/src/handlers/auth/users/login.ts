@@ -51,7 +51,7 @@ export const handler = async (
 
     // Generate token
     const date = new Date();
-    const expDay = 30;
+    const expDay = 1;
     const jwt = new Jwt({
       id: record.id!,
       client: "USER",

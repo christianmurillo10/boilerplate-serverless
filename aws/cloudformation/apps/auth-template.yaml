@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: App template for boilerplate serverless
+Description: Auth template for boilerplate serverless
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -13,17 +13,17 @@ Globals:
     Timeout: 60
 
 Resources:
-  LoginUserAuthenticationsFunction:
+  LoginUserAuthFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: LoginUserAuthenticationsFunction
+      FunctionName: LoginUserAuthFunction
       Description: Function to login user authentication
-      Handler: build/handlers/authentications/users/login.handler
+      Handler: build/handlers/auth/users/login.handler
       Events:
         App:
           Type: Api
           Properties:
-            Path: /authentications/users/login
+            Path: /auth/users/login
             Method: post
     Metadata:
       BuildMethod: esbuild
@@ -32,19 +32,19 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/handlers/authentications/users/login.ts
+          - src/handlers/auth/users/login.ts
 
-  LoginCustomerAuthenticationsFunction:
+  LoginCustomerAuthFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: LoginCustomerAuthenticationsFunction
+      FunctionName: LoginCustomerAuthFunction
       Description: Function to login customer authentication
-      Handler: build/handlers/authentications/customers/login.handler
+      Handler: build/handlers/auth/customers/login.handler
       Events:
         App:
           Type: Api
           Properties:
-            Path: /authentications/customers/login
+            Path: /auth/customers/login
             Method: post
     Metadata:
       BuildMethod: esbuild
@@ -53,4 +53,4 @@ Resources:
         Target: "es2020"
         Sourcemap: true
         EntryPoints:
-          - src/handlers/authentications/customers/login.ts
+          - src/handlers/auth/customers/login.ts

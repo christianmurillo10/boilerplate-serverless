@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: App template for boilerplate serverless
+Description: Users template for boilerplate serverless
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
 Globals:
@@ -13,13 +13,42 @@ Globals:
     Timeout: 60
 
 Resources:
-  # BinaryResponseApi:
-  #   Type: AWS::Serverless::Api
-  #   Properties:
-  #     StageName: prod
+  UsersApiGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      EndpointConfiguration:
+        Type: EDGE
+      Cors:
+        AllowMethods: "'GET, POST, PUT, DELETE, OPTIONS, PATCH'"
+        AllowOrigin: "'*'"
+        AllowHeaders: "'*'"
+      Auth:
+        DefaultAuthorizer: LambdaTokenAuthorizer
+        Authorizers:
+          LambdaTokenAuthorizer:
+            FunctionPayloadType: TOKEN
+            FunctionArn: !GetAtt Authorizer.Arn
+            Identity:
+              ReauthorizeEvery: 0
   #     BinaryMediaTypes:
   #       - "multipart/form-data"
   #       - "application/json"
+
+  Authorizer:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ../../../apps
+      Handler: build/handlers/auth/authorizer.handler
+      Description: App HTTP authorizer
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        Minify: true
+        Target: "es2020"
+        Sourcemap: true
+        EntryPoints:
+          - src/handlers/auth/authorizer.ts
 
   ListUsersFunction:
     Type: AWS::Serverless::Function
@@ -33,6 +62,7 @@ Resources:
           Properties:
             Path: /users
             Method: get
+            RestApiId: !Ref UsersApiGateway
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -54,6 +84,7 @@ Resources:
           Properties:
             Path: /users/{id}
             Method: get
+            RestApiId: !Ref UsersApiGateway
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -75,7 +106,7 @@ Resources:
           Properties:
             Path: /users
             Method: post
-            # RestApiId: !Ref BinaryResponseApi
+            RestApiId: !Ref UsersApiGateway
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -97,7 +128,7 @@ Resources:
           Properties:
             Path: /users/{id}
             Method: put
-            # RestApiId: !Ref BinaryResponseApi
+            RestApiId: !Ref UsersApiGateway
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -119,6 +150,7 @@ Resources:
           Properties:
             Path: /users/{id}
             Method: delete
+            RestApiId: !Ref UsersApiGateway
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -140,6 +172,7 @@ Resources:
           Properties:
             Path: /users/delete-by-ids
             Method: post
+            RestApiId: !Ref UsersApiGateway
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -161,6 +194,7 @@ Resources:
           Properties:
             Path: /users/change-password/{id}
             Method: put
+            RestApiId: !Ref UsersApiGateway
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -182,6 +216,7 @@ Resources:
           Properties:
             Path: /users/generate/report
             Method: get
+            RestApiId: !Ref UsersApiGateway
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
@@ -191,7 +226,7 @@ Resources:
         EntryPoints:
           - src/handlers/users/generate/report.ts
 
-# Output:
-#   BinaryResponseApi:
-#     Description: "Binary Response Api ARN"
-#     value: !Ref BinaryResponseApi
+Output:
+  UsersApiGateway:
+    Description: "App Server User Api ARN"
+    Value: !Ref UsersApiGateway
