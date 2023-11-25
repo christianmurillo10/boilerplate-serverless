@@ -31,9 +31,8 @@ Resources:
             FunctionArn: !GetAtt Authorizer.Arn
             Identity:
               ReauthorizeEvery: 0
-  #     BinaryMediaTypes:
-  #       - "multipart/form-data"
-  #       - "application/json"
+      BinaryMediaTypes:
+        - "multipart/form-data"
 
   Authorizer:
     Type: AWS::Serverless::Function

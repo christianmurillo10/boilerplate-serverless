@@ -17,12 +17,6 @@ resolve_s3 = true
 [default.sync.parameters]
 watch = true
 
-[default.local_start_api.parameters]
-warm_containers = "EAGER"
-
-[default.local_start_lambda.parameters]
-warm_containers = "EAGER"
-
 [prod]
 [prod.sync]
 [prod.sync.parameters]
