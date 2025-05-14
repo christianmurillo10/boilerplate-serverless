@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Main template for boilerplate serverless
+
+Resources:
+  AppApplication:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: ./apps/app-template.yaml
+
+  AuthApplication:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: ./apps/auth-template.yaml
+
+  RolesApplication:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: ./apps/roles-template.yaml
+
+  UsersApplication:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: ./apps/users-template.yaml
+
+  CustomersApplication:
+    Type: AWS::Serverless::Application
+    Properties:
+      Location: ./apps/customers-template.yaml
