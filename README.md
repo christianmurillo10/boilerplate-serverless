@@ -1,7 +1,3 @@
-![AWS Lambda](https://img.icons8.com/color/48/000000/aws-lambda.png) ![CloudFormation](https://img.icons8.com/color/48/000000/aws-cloudformation.png) ![TypeScript](https://img.icons8.com/color/48/000000/typescript.png) ![Prisma](https://img.icons8.com/color/48/000000/prisma.png) ![MySQL](https://img.icons8.com/color/48/000000/mysql.png) 
-
----
-
 ## Project Overview
 
 **Boilerplate Serverless** is a serverless application template that utilizes AWS Lambda, CloudFormation, TypeScript, and Prisma (MySQL) to provide a robust backend solution. This project serves as a foundational setup for developers looking to build scalable serverless applications on AWS.
