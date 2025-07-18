@@ -1,5 +1,3 @@
-# README for Boilerplate Serverless Application
-
 ![AWS Lambda](https://img.icons8.com/color/48/000000/aws-lambda.png) ![CloudFormation](https://img.icons8.com/color/48/000000/aws-cloudformation.png) ![TypeScript](https://img.icons8.com/color/48/000000/typescript.png) ![Prisma](https://img.icons8.com/color/48/000000/prisma.png) ![MySQL](https://img.icons8.com/color/48/000000/mysql.png) 
 
 ---
